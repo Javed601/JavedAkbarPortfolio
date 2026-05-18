@@ -23,7 +23,7 @@ export const Resume = ({ lang }: ResumeProps) => {
 
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="/resume.pdf"
+              href={`${import.meta.env.BASE_URL}resume.pdf`}
               download
               className="inline-flex items-center justify-center px-6 py-3 bg-[#915eff] text-white rounded-xl hover:bg-[#7a4de6] transition"
             >
@@ -33,7 +33,7 @@ export const Resume = ({ lang }: ResumeProps) => {
 
           <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-[#0b1120]">
             <iframe
-              src="/resume.pdf"
+              src={`${import.meta.env.BASE_URL}resume.pdf`}
               title="Resume Preview"
               className="w-full h-[75vh]"
             />
