@@ -4,8 +4,12 @@ import { ComputersCanvas } from "./canvas";
 import { styles } from "../styles";
 import { cn } from "../utils/lib";
 
+type HeroProps = {
+  lang: "de" | "en";
+};
+
 // Hero
-export const Hero = () => {
+export const Hero = ({ lang }: HeroProps) => {
   return (
     <section className="relative w-full h-screen mx-auto">
       <div
@@ -23,12 +27,15 @@ export const Hero = () => {
         {/* About Me */}
         <div>
           <h1 className={cn(styles.heroHeadText, "text-white")}>
-            Hi, I'm <span className="text-[#915eff]">Shubham</span>
+            {lang === "de" ? "Hi, ich bin" : "Hi, I'm"} <span className="text-[#915eff]">Javed Akbar</span>
           </h1>
           <p className={cn(styles.heroSubText, "mt-2 text-white-100")}>
-            I develop 3D visuals, user <br className="sm:block hidden" />
-            interfaces and web applications
+            {lang === "de"
+              ? "Ich baue moderne digitale Arbeitsplätze mit Microsoft 365, SharePoint und kreativer Automatisierung."
+              : "Passionate about building modern digital workplaces with Microsoft 365, SharePoint, and creative automation."}
           </p>
+
+          {/* CTA buttons removed as requested */}
         </div>
       </div>
 

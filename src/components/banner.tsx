@@ -6,11 +6,12 @@ import { close, bulb } from "../assets";
 type BannerProps = {
   hide: boolean;
   setHide: (hide: boolean) => void;
+  lang: "de" | "en";
 };
 
 const BANNER_KEY = "hide-banner";
 
-const Banner = ({ hide, setHide }: BannerProps) => {
+const Banner = ({ hide, setHide, lang }: BannerProps) => {
   useEffect(() => {
     const hideBanner = localStorage.getItem(BANNER_KEY);
 
@@ -49,16 +50,9 @@ const Banner = ({ hide, setHide }: BannerProps) => {
             <span className="sr-only">Light bulb</span>
           </span>
           <span>
-            Did you enjoy this portfolio? Take a look at my{" "}
-            <Link
-              to="https://www.sanidhyy.name"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="inline font-medium text-blue-600 underline underline-offset-2 decoration-600 hover:no-underline"
-            >
-              new portfolio
-            </Link>
-            .
+            {lang === "de"
+              ? "Erkunden Sie meine Erfahrung als Office 365 Administrator und laden Sie meinen Lebenslauf über die Schaltfläche oben herunter."
+              : "Explore my experience as an Office 365 Administrator and download my resume from the button above."}
           </span>
         </p>
       </div>

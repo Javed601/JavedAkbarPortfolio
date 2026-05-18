@@ -1,17 +1,48 @@
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import { Suspense, useEffect, useState } from "react";
+import { OrbitControls, Preload, useGLTF, useProgress } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 import CanvasLoader from "../loader";
 
 type ComputersProps = {
   isMobile: boolean;
+  isLoaded: boolean;
 };
 
 // Computers
-const Computers = ({ isMobile }: ComputersProps) => {
+const Computers = ({ isMobile, isLoaded }: ComputersProps) => {
   // Import scene
   const computer = useGLTF("./desktop_pc/scene.gltf");
+  const computerRef = useRef<any>(null);
+  const rotationProgress = useRef(0);
+  const rotationDuration = 4; // seconds for one full 360° rotation
+  const initialRotationY = -0.2;
+  const [startRotation, setStartRotation] = useState(false);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const timer = window.setTimeout(() => {
+      setStartRotation(true);
+    }, 250);
+
+    return () => window.clearTimeout(timer);
+  }, [isLoaded]);
+
+  const ease = (t: number) => t * t * (3 - 2 * t);
+
+  useFrame((_, delta) => {
+    if (!computerRef.current || !startRotation || rotationProgress.current >= rotationDuration) return;
+
+    rotationProgress.current = Math.min(
+      rotationProgress.current + delta,
+      rotationDuration
+    );
+
+    const t = rotationProgress.current / rotationDuration;
+    computerRef.current.rotation.y =
+      initialRotationY + ease(t) * Math.PI * 2;
+  });
 
   return (
     // Mesh
@@ -28,10 +59,11 @@ const Computers = ({ isMobile }: ComputersProps) => {
         shadow-mapSize={1024}
       />
       <primitive
+        ref={computerRef}
         object={computer.scene}
         scale={isMobile ? 0.7 : 0.75}
         position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
-        rotation={[-0.01, -0.2, -0.1]}
+        rotation={[-0.01, initialRotationY, -0.1]}
       />
     </mesh>
   );
@@ -60,6 +92,8 @@ const ComputersCanvas = () => {
     };
   }, []);
 
+  const { loaded } = useProgress();
+
   return (
     <Canvas
       frameloop="demand"
@@ -75,7 +109,7 @@ const ComputersCanvas = () => {
           minPolarAngle={Math.PI / 2}
         />
         {/* Show Model */}
-        <Computers isMobile={isMobile} />
+        <Computers isMobile={isMobile} isLoaded={loaded >= 100} />
       </Suspense>
 
       {/* Preload all */}

@@ -8,8 +8,12 @@ import { SectionWrapper } from "../hoc";
 import { styles } from "../styles";
 import { slideIn } from "../utils/motion";
 
+type ContactProps = {
+  lang: "de" | "en";
+};
+
 // Contact
-export const Contact = () => {
+export const Contact = ({ lang }: ContactProps) => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [form, setForm] = useState({
     name: "",
@@ -88,18 +92,40 @@ export const Contact = () => {
     // validate form
     if (!validateForm()) return false;
 
-    // show loader
     setLoading(true);
 
-    // send email
+    const isEmailjsConfigured = Boolean(
+      import.meta.env.VITE_APP_SERVICE_ID &&
+      import.meta.env.VITE_APP_TEMPLATE_ID &&
+      import.meta.env.VITE_APP_EMAILJS_RECIEVER &&
+      import.meta.env.VITE_APP_EMAILJS_KEY
+    );
+
+    if (!isEmailjsConfigured) {
+      console.error(
+        "[CONTACT_ERROR]: EmailJS is not configured. Please create a .env file with VITE_APP_SERVICE_ID, VITE_APP_TEMPLATE_ID, VITE_APP_EMAILJS_KEY, and VITE_APP_EMAILJS_RECIEVER."
+      );
+      toast.error(
+        lang === "de"
+          ? "Kontaktformular nicht konfiguriert. Überprüfen Sie die EmailJS-Umgebungsvariablen."
+          : "Contact form not configured. Check EmailJS env vars."
+      );
+      setLoading(false);
+      return false;
+    }
+
     emailjs
       .send(
         import.meta.env.VITE_APP_SERVICE_ID,
         import.meta.env.VITE_APP_TEMPLATE_ID,
         {
+          name: form.name,
           from_name: form.name,
-          to_name: "Shubham",
+          email: form.email.trim().toLowerCase(),
+          reply_to: form.email.trim().toLowerCase(),
           from_email: form.email.trim().toLowerCase(),
+          user_email: form.email.trim().toLowerCase(),
+          to_name: "Javed Akbar",
           to_email: import.meta.env.VITE_APP_EMAILJS_RECIEVER,
           message: form.message,
         },
@@ -107,9 +133,12 @@ export const Contact = () => {
       )
       .then(() => toast.success("Thanks for contacting me."))
       .catch((error) => {
-        // Error handle
         console.log("[CONTACT_ERROR]: ", error);
-        toast.error("Something went wrong.");
+        const errorMessage =
+          error?.text ||
+          error?.message ||
+          "Something went wrong. Please check your EmailJS configuration.";
+        toast.error(errorMessage);
       })
       .finally(() => {
         setLoading(false);
@@ -119,6 +148,8 @@ export const Contact = () => {
           message: "",
         });
       });
+
+    return true;
   };
 
   return (
@@ -129,8 +160,12 @@ export const Contact = () => {
           className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
         >
           {/* Title */}
-          <p className={styles.sectionSubText}>Get in touch</p>
-          <h3 className={styles.sectionHeadText}>Contact.</h3>
+          <p className={styles.sectionSubText}>
+            {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
+          </p>
+          <h3 className={styles.sectionHeadText}>
+            {lang === "de" ? "Kontakt." : "Contact."}
+          </h3>
 
           {/* Form */}
           <form
@@ -140,15 +175,17 @@ export const Contact = () => {
           >
             {/* Name */}
             <label htmlFor="name" className="flex flex-col">
-              <span className="text-white font-medium mb-4">Your Name*</span>
+              <span className="text-white font-medium mb-4">
+                {lang === "de" ? "Ihr Name*" : "Your Name*"}
+              </span>
               <input
                 type="text"
                 name="name"
                 id="name"
                 value={form.name}
                 onChange={handleChange}
-                placeholder="John Doe"
-                title="What's your name?"
+                placeholder={lang === "de" ? "Max Mustermann" : "John Doe"}
+                title={lang === "de" ? "Wie heißen Sie?" : "What's your name?"}
                 disabled={loading}
                 aria-disabled={loading}
                 className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium disabled:bg-tertiary/20 disabled:text-white/60"
@@ -156,21 +193,23 @@ export const Contact = () => {
 
               {/* Invalid Name */}
               <span className="text-red-400 mt-2 hidden" id="name-error">
-                Invalid Name!
+                {lang === "de" ? "Ungültiger Name!" : "Invalid Name!"}
               </span>
             </label>
 
             {/* Email */}
             <label htmlFor="email" className="flex flex-col">
-              <span className="text-white font-medium mb-4">Your Email*</span>
+              <span className="text-white font-medium mb-4">
+                {lang === "de" ? "Ihre E-Mail*" : "Your Email*"}
+              </span>
               <input
                 type="email"
                 name="email"
                 id="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="johndoe@email.com"
-                title="What's your email?"
+                placeholder={lang === "de" ? "max@muster.de" : "johndoe@email.com"}
+                title={lang === "de" ? "Wie lautet Ihre E-Mail?" : "What's your email?"}
                 disabled={loading}
                 aria-disabled={loading}
                 className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium disabled:bg-tertiary/20 disabled:text-white/60"
@@ -178,21 +217,23 @@ export const Contact = () => {
 
               {/* Invalid Email */}
               <span className="text-red-400 mt-2 hidden" id="email-error">
-                Invalid E-mail!
+                {lang === "de" ? "Ungültige E-Mail!" : "Invalid E-mail!"}
               </span>
             </label>
 
             {/* Message */}
             <label htmlFor="message" className="flex flex-col">
-              <span className="text-white font-medium mb-4">Your Message*</span>
+              <span className="text-white font-medium mb-4">
+                {lang === "de" ? "Ihre Nachricht*" : "Your Message*"}
+              </span>
               <textarea
                 rows={7}
                 name="message"
                 id="message"
                 value={form.message}
                 onChange={handleChange}
-                placeholder="Hello there!"
-                title="What do you want to say?"
+                placeholder={lang === "de" ? "Hallo!" : "Hello there!"}
+                title={lang === "de" ? "Was möchten Sie sagen?" : "What do you want to say?"}
                 disabled={loading}
                 aria-disabled={loading}
                 className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium disabled:bg-tertiary/20 disabled:text-white/60 disabled:resize-none"
@@ -200,20 +241,20 @@ export const Contact = () => {
 
               {/* Invalid Message */}
               <span className="text-red-400 mt-2 hidden" id="message-error">
-                Invalid Message!
+                {lang === "de" ? "Ungültige Nachricht!" : "Invalid Message!"}
               </span>
             </label>
 
             {/* Submit */}
             <button
               type="submit"
-              title={loading ? "Sending..." : "Send"}
+              title={loading ? (lang === "de" ? "Senden..." : "Sending...") : (lang === "de" ? "Senden" : "Send")}
               className="bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl disabled:bg-tertiary/20 disabled:text-white/60"
               disabled={loading}
               aria-disabled={loading}
             >
               {/* check loader state */}
-              {loading ? "Sending..." : "Send"}
+              {loading ? (lang === "de" ? "Senden..." : "Sending...") : (lang === "de" ? "Senden" : "Send")}
             </button>
           </form>
         </motion.div>

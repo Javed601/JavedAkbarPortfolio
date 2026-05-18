@@ -5,7 +5,7 @@ import backend from "./backend.png";
 import bulb from "./bulb.svg";
 import close from "./close.svg";
 import creator from "./creator.png";
-import logo from "./logo.svg";
+import logo from "./logo.JPG";
 import menu from "./menu.svg";
 import mobile from "./mobile.png";
 import preview from "./preview.png";
@@ -30,16 +30,17 @@ import shopify from "./company/shopify.png";
 import starbucks from "./company/starbucks.png";
 import tesla from "./company/tesla.png";
 
-import project1 from "./projects/project1.png";
-import project2 from "./projects/project2.png";
-import project3 from "./projects/project3.png";
-import project4 from "./projects/project4.png";
-import project5 from "./projects/project5.png";
-import project6 from "./projects/project6.png";
-
-import user1 from "./testimonials/user1.jpg";
-import user2 from "./testimonials/user2.jpg";
-import user3 from "./testimonials/user3.jpg";
+import project1 from "./projects/project1.jpg";
+import project1b from "./projects/project1.png";
+import project2 from "./projects/project2.jpg";
+import project3 from "./projects/project3.jpg";
+import project4 from "./projects/project4.jpg";
+import project5 from "./projects/project5.jpg";
+import project6 from "./projects/project6.jpg";
+import signageProjectImage01 from "../../signageProjectImage01.png";
+import signageProjectImage02 from "../../signageProjectImage02.jpg";
+import signageProjectImage03 from "../../signageProjectImage03.png";
+import ContractManagementSharePointImage from "../../Contract-Management-SharePointImage.webp";
 
 import github from "./socials/github.svg";
 import linkedin from "./socials/linkedin.svg";
@@ -74,14 +75,16 @@ export {
   starbucks,
   tesla,
   project1,
+  project1b,
   project2,
   project3,
   project4,
   project5,
   project6,
-  user1,
-  user2,
-  user3,
+  signageProjectImage01,
+  signageProjectImage02,
+  signageProjectImage03,
+  ContractManagementSharePointImage,
   github,
   youtube,
   linkedin,

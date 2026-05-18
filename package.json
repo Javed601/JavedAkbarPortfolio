@@ -1,13 +1,13 @@
 {
-  "name": "3d-portfolio",
-  "version": "1.1.4",
+  "name": "javed-akbar-portfolio",
+  "version": "1.0.0",
   "private": true,
   "author": {
-    "name": "Sanidhya Kumar Verma",
-    "email": "sanidhya.verma12345@gmail.com",
-    "url": "https://github.com/sanidhyy"
+    "name": "Javed Akbar",
+    "email": "",
+    "url": ""
   },
-  "description": "Modern 3D Portfolio using React, Three.js and Typescript",
+  "description": "Portfolio site for Javed Akbar, Desktop Engineer and Office 365 Administrator",
   "keywords": [
     "reactjs",
     "react",

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   About,
   Contact,
   Experience,
-  Feedbacks,
   Hero,
   Navbar,
   Tech,
@@ -13,32 +12,56 @@ import {
 } from "./components";
 import Banner from "./components/banner";
 import Footer from "./components/footer";
+import Resume from "./components/resume";
 
 // App
+type Language = "de" | "en";
+
 const App = () => {
   const [hide, setHide] = useState(true);
+  const [language, setLanguage] = useState<Language>("de");
 
-  return (
-    <BrowserRouter>
-      <Banner hide={hide} setHide={setHide} />
+  const HomeLayout = (
+    <>
+      <Banner hide={hide} setHide={setHide} lang={language} />
       <div className="relative z-0 bg-primary">
         <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Navbar hide={hide} />
-          <Hero />
+          <Navbar hide={hide} lang={language} setLang={setLanguage} />
+          <Hero lang={language} />
         </div>
-        <About />
-        <Experience />
+        <About lang={language} />
+        <Experience lang={language} />
         <Tech />
-        <Works />
-        <Feedbacks />
+        <Works lang={language} />
 
         {/* Contact */}
         <div className="relative z-0">
-          <Contact />
+          <Contact lang={language} />
           <StarsCanvas />
         </div>
         <Footer />
       </div>
+    </>
+  );
+
+  const ResumeLayout = (
+    <>
+      <Banner hide={hide} setHide={setHide} lang={language} />
+      <div className="relative z-0 bg-primary min-h-screen">
+        <Navbar hide={hide} lang={language} setLang={setLanguage} />
+        <Resume lang={language} />
+        <Footer />
+      </div>
+    </>
+  );
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={HomeLayout} />
+        <Route path="/resume" element={ResumeLayout} />
+        <Route path="*" element={HomeLayout} />
+      </Routes>
     </BrowserRouter>
   );
 };
