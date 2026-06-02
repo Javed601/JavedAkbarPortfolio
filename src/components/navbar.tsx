@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { menu, close } from "../assets";
+import { menu, close, logo } from "../assets";
 import { NAV_LINKS } from "../constants";
 import { styles } from "../styles";
 import { cn } from "../utils/lib";
@@ -40,6 +40,8 @@ export const Navbar = ({ hide, lang, setLang }: NavbarProps) => {
     resume: { de: "Lebenslauf", en: "Resume" },
   };
 
+  const getSectionHref = (id: string) => `/${id === "about" ? "#about" : `#${id}`}`;
+
   return (
     <nav
       className={cn(
@@ -60,7 +62,7 @@ export const Navbar = ({ hide, lang, setLang }: NavbarProps) => {
         >
           <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#915eff] shadow-[0_0_18px_rgba(145,94,255,0.45)] bg-[#050816]">
             <img
-              src="/favicon.svg"
+              src={logo}
               alt="Logo"
               className="w-full h-full object-cover"
             />
@@ -112,7 +114,7 @@ export const Navbar = ({ hide, lang, setLang }: NavbarProps) => {
                   </a>
                 )
               ) : (
-                <a href={`#${link.id}`}>{translatedTitles[link.id]?.[lang] ?? link.title}</a>
+                <Link to={getSectionHref(link.id)}>{translatedTitles[link.id]?.[lang] ?? link.title}</Link>
               )}
             </li>
           ))}
@@ -161,7 +163,7 @@ export const Navbar = ({ hide, lang, setLang }: NavbarProps) => {
                       </a>
                     )
                   ) : (
-                    <a href={`#${link.id}`}>{translatedTitles[link.id]?.[lang] ?? link.title}</a>
+                    <Link to={getSectionHref(link.id)}>{translatedTitles[link.id]?.[lang] ?? link.title}</Link>
                   )}
                 </li>
               ))}

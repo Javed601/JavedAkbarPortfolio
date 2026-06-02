@@ -17,9 +17,20 @@ import Resume from "./components/resume";
 // App
 type Language = "de" | "en";
 
+const getRouterBasename = () => {
+  const baseUrl = import.meta.env.BASE_URL;
+
+  if (baseUrl === "/") {
+    return "/";
+  }
+
+  return baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+};
+
 const App = () => {
   const [hide, setHide] = useState(true);
   const [language, setLanguage] = useState<Language>("de");
+  const routerBasename = getRouterBasename();
 
   const HomeLayout = (
     <>
@@ -56,7 +67,7 @@ const App = () => {
   );
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <Routes>
         <Route path="/" element={HomeLayout} />
         <Route path="/resume" element={ResumeLayout} />
