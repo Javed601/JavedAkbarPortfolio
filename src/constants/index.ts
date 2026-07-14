@@ -150,6 +150,14 @@ export const TECHNOLOGIES = [
     icon: getTextIcon("JavaScript", "#f7df1e", "#000000"),
   },
   {
+    name: "TypeScript",
+    icon: getTextIcon("TypeScript", "#3178c6", "#ffffff"),
+  },
+  {
+    name: "React",
+    icon: getTextIcon("React", "#61dafb", "#000000"),
+  },
+  {
     name: "HTML 5",
     icon: getTextIcon("HTML 5", "#e34f26", "#ffffff"),
   },
@@ -370,6 +378,26 @@ export const PROJECTS = [
         name: "spfx",
         color: "pink-text-gradient",
       },
+      {
+        name: "azure",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "typescript",
+        color: "green-text-gradient",
+      },
+      {
+        name: "javascript",
+        color: "pink-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "react",
+        color: "green-text-gradient",
+      },
     ],
     image: project2,
     source_code_link: "#",
@@ -391,7 +419,19 @@ export const PROJECTS = [
         color: "green-text-gradient",
       },
       {
-        name: "graph-api",
+        name: "graph-apis",
+        color: "pink-text-gradient",
+      },
+      {
+        name: "typescript",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "green-text-gradient",
+      },
+      {
+        name: "react",
         color: "pink-text-gradient",
       },
     ],
